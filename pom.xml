@@ -98,14 +98,14 @@
 	
 	    <repository>
 	      <id>nexus</id>
-	      <name>Mithun Technologies Releases Nexus Repository</name>
-	      <url>http://172.31.38.5:9980/mithuntechnologies/repository/walmart-releases/</url>
+	      <name>Mbadassbrahmin Releases Nexus Repository</name>
+	      <url>http://54.167.26.172:8081/repository/release-repo/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>Mithun Technologies Snapshot Nexus Repository </name>
-	      <url>http://172.31.38.5:9980/mithuntechnologies/repository/walmart-snapshot/</url>
+	      <url>http://54.167.26.172:8081/repository/snapshot-repo/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>

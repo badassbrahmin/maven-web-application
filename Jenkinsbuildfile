@@ -1,6 +1,6 @@
 node{
 
-def mavenHome = tool name: 'maven3.8.6'
+def mavenHome = tool name: 'Maven3.8.6'
 
 stage ('Codepull'){
 git branch: 'development', credentialsId: '1fb6c03e-3036-48e3-aa61-d384f4b179f6', url: 'https://github.com/MithunTechnologiesDevOps/maven-web-application.git'

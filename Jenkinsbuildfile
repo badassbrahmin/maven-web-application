@@ -12,5 +12,4 @@ sh "${mavenHome}/bin/mvn package"
  stage ('reportuploadtosonar'){
   sh "${mavenHome}/bin/mvn package sonar:sonar"
  }
- 
 }

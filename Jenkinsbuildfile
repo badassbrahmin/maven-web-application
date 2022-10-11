@@ -7,7 +7,7 @@ git branch: 'development', credentialsId: '1fb6c03e-3036-48e3-aa61-d384f4b179f6'
  }
 
 stage ('Build code'){
-sh "${mavenHome}/bin/mvn package
+sh "${mavenHome}/bin/mvn package"
  }
 
 }

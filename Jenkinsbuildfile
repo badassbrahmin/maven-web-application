@@ -1,15 +1,21 @@
-node{
+node
+{
 
 def mavenHome = tool name: 'maven3.8.6'
 
-stage ('Codepull'){
+stage ('Codepull')
+{
 git branch: 'development', credentialsId: '1fb6c03e-3036-48e3-aa61-d384f4b179f6', url: 'https://github.com/badassbrahmin/maven-web-application.git'}
  }
 
-stage ('Buildcode'){
+stage ('Buildcode')
+{
 sh "${mavenHome}/bin/mvn package"
  }
- stage ('reportuploadtosonar'){
+
+stage ('reportuploadtosonar')
+{
   sh "${mavenHome}/bin/mvn package sonar:sonar"
  }
+
 }

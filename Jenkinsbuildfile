@@ -7,7 +7,7 @@ git branch: 'development', changelog: false, credentialsId: '1fb6c03e-3036-48e3-
 }
 
 stage('codeBuild'){
-sh $"{mavenHome} mvn package"
+sh "${mavenHome} mvn package"
 }
 
 }

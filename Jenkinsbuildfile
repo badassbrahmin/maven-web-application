@@ -14,4 +14,8 @@ stage('builduploadsonar'){
 sh "${mavenHome}/bin/mvn package sonar:sonar"
 }
 
+stage('uploadtoNexus'){
+sh "${mavenHome}/bin/mvn package deploy"
+}
+
 }

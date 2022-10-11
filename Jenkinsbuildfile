@@ -7,7 +7,22 @@ git branch: 'development', changelog: false, credentialsId: '1fb6c03e-3036-48e3-
 }
 
 stage('codeBuild'){
-sh "${mavenHome}/bin/mvn package"
+sh $"{mavenHome} mvn package"
+}
+
+stage('uploadtoSonar'){
+sh "${mavenHome}/bin/mvn package sonar:sonar"
+}
+
+stage('uploadtoNexus'){
+sh "${mavenHome}/bin/mvn package deploy"
+}
+
+
+stage('copytoTomcat'){
+sshagent(['3a4471b2-32be-4ae5-b9ea-387f5ea6f7b9']) {
+sh "scp -o StrictHostKeyChecking=no /target/maven-web-application.war ec2-user@172.31.92.219:/opt/apache-tomcat-9.0.67/webapps"
+}
 }
 
 }

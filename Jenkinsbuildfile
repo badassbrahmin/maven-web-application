@@ -1,27 +1,13 @@
 node {
 
-def mavenHome = tool name:"Maven3.8.6"
+def mavenHome=tool name:'Maven3.8.6'
 
-stage ('codePull') {
-git branch: 'development', credentialsId: '1fb6c03e-3036-48e3-aa61-d384f4b179f6', url: 'https://github.com/badassbrahmin/maven-web-application.git'
+stage ('pullcodefromGit'){
+git branch: 'development', changelog: false, credentialsId: '1fb6c03e-3036-48e3-aa61-d384f4b179f6', url: 'https://github.com/badassbrahmin/maven-web-application.git'
 }
 
 stage('codeBuild'){
-sh "${mavenHome}/bin/mvn package"
+sh $"{mavenHome} mvn package"
 }
 
-stage('builduploadsonar'){
-sh "${mavenHome}/bin/mvn package sonar:sonar"
-}
-
-stage('uploadtoNexus'){
-sh "${mavenHome}/bin/mvn package deploy"
-}
-
-
-stage ('uploadtoTomcat'){
-sshagent(['3a4471b2-32be-4ae5-b9ea-387f5ea6f7b9']) {
-    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.92.219:/opt/apache-tomcat-9.0.67/webapps/"
-}
-}
 }

@@ -18,8 +18,10 @@ stage('uploadtoNexus'){
 sh "${mavenHome}/bin/mvn package deploy"
 }
 
+
+stage ('uploadtoTomcat'){
 sshagent(['3a4471b2-32be-4ae5-b9ea-387f5ea6f7b9']) {
     sh "scp target/maven-web-application.war ec2-user@172.31.92.219:opt/apache-tomcat-9.0.67/webapps"
 }
-
+}
 }

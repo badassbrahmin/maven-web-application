@@ -2,7 +2,6 @@ node {
 
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), pipelineTriggers([githubPush()])])
 
-echo "this code is build from branch: $BRANCH_NAME"
 
 echo "the current build number is: $BUILD_NUMBER"
 

@@ -1,5 +1,15 @@
 node {
 
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), pipelineTriggers([githubPush()])])
+
+echo "this code is build from branch: $BRANCH_NAME"
+
+echo "the current build number is: $BUILD_NUMBER"
+
+echo "the job name of this build is: $JOB_NAME"
+
+echo "the path for this build is: $WORKSPACE"
+
 def mavenHome=tool name:'Maven3.8.6'
 
 stage ('pullcodefromGit'){

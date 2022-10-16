@@ -43,7 +43,7 @@ throw e
 }
 
 finally{
-slacknotifications('currentBuild.result')
+slacknotifications(currentBuild.result)
 }
 
 

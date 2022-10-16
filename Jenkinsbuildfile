@@ -1,37 +1,36 @@
-node {
-
-properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), pipelineTriggers([githubPush()])])
+node{
 
 
-echo "the current build number is: $BUILD_NUMBER"
+echo "this is the: $BUILD_NUMBER"
+echo "the workspace is: $WORKSPACE"
 
-echo "the job name of this build is: $JOB_NAME"
+echo "Jenkins URL is $JENKINS_URL"
 
-echo "the path for this build is: $WORKSPACE"
+def mavenHome=tool name: 'Maven3.8.6'
 
-def mavenHome=tool name:'Maven3.8.6'
-
-stage ('pullcodefromGit'){
-git branch: 'development', changelog: false, credentialsId: '1fb6c03e-3036-48e3-aa61-d384f4b179f6', url: 'https://github.com/badassbrahmin/maven-web-application.git'
+stage('PullfromGit'){
+git branch: 'development', credentialsId: '1fb6c03e-3036-48e3-aa61-d384f4b179f6', url: 'https://github.com/badassbrahmin/maven-web-application.git'
 }
 
-stage('codeBuild'){
-sh "${mavenHome}/bin/mvn package"
+stage('buildcode'){
+sh '${mavenHome}/bin/mvn package'
 }
 
 stage('uploadtoSonar'){
-sh "${mavenHome}/bin/mvn package sonar:sonar"
+sh '${mavenHome}/bin/mvn package sonar:sonar'
 }
 
-stage('uploadtoNexus'){
-sh "${mavenHome}/bin/mvn package deploy"
+stage('artifacttoNexus'){
+sh '${mavenHome}/bin/mvn deploy'
 }
 
-
-stage('copytoTomcat'){
+stage('deploytoTomcat'){
 sshagent(['3a4471b2-32be-4ae5-b9ea-387f5ea6f7b9']) {
-sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.92.219:/opt/apache-tomcat-9.0.67/webapps"
-}
+    scp -o StrictHostKeyChecking=no /target/maven-web-application.war  ec2-user@3.83.212.216:/opt/apache-tomcat-9.0.67/webapps/
+	
+	
 }
 
+
+}
 }

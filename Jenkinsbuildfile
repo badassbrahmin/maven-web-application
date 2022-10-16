@@ -17,21 +17,20 @@ git branch: 'development', credentialsId: '1fb6c03e-3036-48e3-aa61-d384f4b179f6'
 }
 
 stage('buildcode'){
-sh '${mavenHome}/bin/mvn package'
+sh "${mavenHome}/bin/mvn package"
 }
 
 stage('uploadtoSonar'){
-sh '${mavenHome}/bin/mvn package sonar:sonar'
+sh "${mavenHome}/bin/mvn package sonar:sonar"
 }
 
 stage('artifacttoNexus'){
-sh '${mavenHome}/bin/mvn deploy'
+sh "${mavenHome}/bin/mvn deploy"
 }
 
 stage('deploytoTomcat'){
 sshagent(['3a4471b2-32be-4ae5-b9ea-387f5ea6f7b9']) {
-    scp -o StrictHostKeyChecking=no /target/maven-web-application.war  ec2-user@3.83.212.216://opt/apache-tomcat-9.0.67/webapps/
-	
+sh "scp -o StrictHostKeyChecking=no /target/maven-web-application.war  ec2-user@3.83.212.216://opt/apache-tomcat-9.0.67/webapps/"
 	
 }
 }//closingofTomcatstage

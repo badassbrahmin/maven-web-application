@@ -1,5 +1,8 @@
 node{
 
+try{
+
+slacknotifications('STARTED')
 
 echo "this is the: $BUILD_NUMBER"
 echo "the workspace is: $WORKSPACE"
@@ -8,29 +11,66 @@ echo "Jenkins URL is $JENKINS_URL"
 
 def mavenHome=tool name: 'Maven3.8.6'
 
+
 stage('PullfromGit'){
 git branch: 'development', credentialsId: '1fb6c03e-3036-48e3-aa61-d384f4b179f6', url: 'https://github.com/badassbrahmin/maven-web-application.git'
 }
 
 stage('buildcode'){
-sh "${mavenHome}/bin/mvn package"
+sh '${mavenHome}/bin/mvn package'
 }
 
 stage('uploadtoSonar'){
-sh "${mavenHome}/bin/mvn package sonar:sonar"
+sh '${mavenHome}/bin/mvn package sonar:sonar'
 }
 
 stage('artifacttoNexus'){
-sh "${mavenHome}/bin/mvn deploy"
+sh '${mavenHome}/bin/mvn deploy'
 }
 
 stage('deploytoTomcat'){
 sshagent(['3a4471b2-32be-4ae5-b9ea-387f5ea6f7b9']) {
-   sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war  ec2-user@172.31.92.219:/opt/apache-tomcat-9.0.67/webapps"
+    scp -o StrictHostKeyChecking=no /target/maven-web-application.war  ec2-user@3.83.212.216://opt/apache-tomcat-9.0.67/webapps/
 	
 	
 }
+}//closingofTomcatstage
+}//tryclosing
 
-
+catch(e){
+currentBuild.result="FAILURE"
+throw e
 }
+
+finally{
+currentBuild.result="SUCCESS"
+}
+
+def slacknotifications(String buildStatus = 'STARTED') {
+  // build status of null means successful
+  buildStatus =  buildStatus ?: 'SUCCESS'
+
+  // Default values
+  def colorName = 'RED'
+  def colorCode = '#FF0000'
+  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+  def summary = "${subject} (${env.BUILD_URL})"
+
+  // Override default values based on build status
+  if (buildStatus == 'STARTED') {
+    color = 'YELLOW'
+    colorCode = '#FFFF00'
+  } else if (buildStatus == 'SUCCESSFUL') {
+    color = 'GREEN'
+    colorCode = '#00FF00'
+  } else {
+    color = 'RED'
+    colorCode = '#FF0000'
+  }
+
+  // Send notifications
+  slackSend (color: colorCode, message: summary)
+}
+
+
 }

@@ -4,7 +4,7 @@
 	
 	<groupId>com.mt</groupId>
 	<artifactId>maven-web-application</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>war</packaging>
 	
 	<name>maven-web-application</name>
@@ -101,13 +101,13 @@
 	    <repository>
 	      <id>nexus</id>
 	      <name>badassbrahmin Releases Nexus Repository</name>
-	      <url>http://13.48.71.100:8081/repository/walmart-release/</url>
+	      <url>http://13.49.225.170:8081/repository/walmart-release/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>badassbrahmin Releases Nexus Repository</name>
-	      <url>http://13.48.71.100:8081/repository/walmart-snapshot/</url>
+	      <url>http://13.49.225.170:8081/repository/walmart-snapshot/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
